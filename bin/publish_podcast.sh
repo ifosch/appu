@@ -179,6 +179,7 @@ function download_edited_mp3 {
   export EPISODE_LENGTH=$(
     curl -sL -I ${EPISODE_URL} | \
     grep 'Content-Length' | \
+    tail -1 | \
     awk '{ print $2 }'
   )
   EPISODE_DEST="podcast/files/${FINAL_FILE_NAME}"

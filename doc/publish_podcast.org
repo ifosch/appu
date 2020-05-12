@@ -69,7 +69,7 @@
       DROPBOX_CLI=${HOME}/bin/dropbox.py
       PROJECTS_PATH=${HOME}/src
       DRIVE_CREDENTIALS_FILE=../.credentials/edyo-test-5159ae711f8b.json
-      PUBLIC_FEED=http://podcast.edyo.es/feed_podcast.xml
+      PUBLIC_FEED=https://podcast.edyo.es/feed_podcast.xml
 
       <<count_tracks>>
 
@@ -223,7 +223,7 @@
     #+NAME: count_tracks
     #+BEGIN_SRC sh :results silent
       function count_tracks {
-        curl -s ${PUBLIC_FEED} > /tmp/feedpodcast.xml   
+        curl -s ${PUBLIC_FEED} > /tmp/feedpodcast.xml
         goxpath -u '/rss/channel/item' /tmp/feedpodcast.xml | wc -l
       }
     #+END_SRC
@@ -371,7 +371,8 @@
         ssh_server "echo -ne '${I}- title: ${EPISODE_TITLE}\n' >> feed_podcast.yml"
         ssh_server "echo -ne '${I}  description: |\n' >> feed_podcast.yml"
         ssh_server "echo -ne '${I}    ${EPISODE_COMMENT}\n' >> feed_podcast.yml"
-        ssh_server "echo -ne '${I}    Blog Entre Dev y Ops - http://www.entredevyops.es\n' >> feed_podcast.yml"
+        ssh_server "echo -ne '${I}    Blog Entre Dev y Ops - https://www.entredevyops.es\n' >> feed_podcast.yml"
+        ssh_server "echo -ne '${I}    Telegram Entre Dev y Ops - https://t.me/entredevyops\n' >> feed_podcast.yml"
         ssh_server "echo -ne '${I}    Twitter Entre Dev y Ops - https://twitter.com/EntreDevYOps\n' >> feed_podcast.yml"
         ssh_server "echo -ne '${I}    LinkedIn Entre Dev y Ops - https://www.linkedin.com/in/entre-dev-y-ops-a7404385/\n' >> feed_podcast.yml"
         ssh_server "echo -ne '${I}    Patreon Entre Dev y Ops - https://www.patreon.com/edyo\n' >> feed_podcast.yml"
@@ -379,13 +380,13 @@
         ssh_server "echo -ne '${I}    Enlaces comentados:' >> feed_podcast.yml"
         LINKS=$(echo ${EPISODE_LINKS} | sed -e 's/#/\\n        /g')
         ssh_server "echo -ne '${I}    ${LINKS}\n' >> feed_podcast.yml"
-        ssh_server "echo -ne '${I}  link: http://podcast.edyo.es/${APPU_OUTPUT_FILE_NAME}\n' >> feed_podcast.yml"
+        ssh_server "echo -ne '${I}  link: https://podcast.edyo.es/${APPU_OUTPUT_FILE_NAME}\n' >> feed_podcast.yml"
         ssh_server "echo -ne '${I}  pubDate: $(TZ='UTC' date -R)\n' >> feed_podcast.yml"
         ssh_server "echo -ne '${I}  enclosure:\n' >> feed_podcast.yml"
         ssh_server "echo -ne '${I}    attributes:\n' >> feed_podcast.yml"
         ssh_server "echo -ne '${I}      length: ${EPISODE_LENGTH}\n' >> feed_podcast.yml"
         ssh_server "echo -ne '${I}      type: audio/mpeg\n' >> feed_podcast.yml"
-        ssh_server "echo -ne '${I}      url: http://podcast.edyo.es/${APPU_OUTPUT_FILE_NAME}\n' >> feed_podcast.yml"
+        ssh_server "echo -ne '${I}      url: https://podcast.edyo.es/${APPU_OUTPUT_FILE_NAME}\n' >> feed_podcast.yml"
         ssh_server "./pan feed_podcast.yml > podcast/feed_podcast.xml"
       }
     #+END_SRC

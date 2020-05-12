@@ -1,7 +1,7 @@
 DROPBOX_CLI=${HOME}/bin/dropbox.py
 PROJECTS_PATH=${HOME}/src
 DRIVE_CREDENTIALS_FILE=../.credentials/edyo-test-5159ae711f8b.json
-PUBLIC_FEED=http://podcast.edyo.es/feed_podcast.xml
+PUBLIC_FEED=https://podcast.edyo.es/feed_podcast.xml
 
 function count_tracks {
   curl -s ${PUBLIC_FEED} > /tmp/feedpodcast.xml
@@ -202,13 +202,13 @@ function update_feed {
   ssh_server "echo -ne '${I}    Enlaces comentados:' >> feed_podcast.yml"
   LINKS=$(echo ${EPISODE_LINKS} | sed -e 's/#/\\n        /g')
   ssh_server "echo -ne '${I}    ${LINKS}\n' >> feed_podcast.yml"
-  ssh_server "echo -ne '${I}  link: http://podcast.edyo.es/${APPU_OUTPUT_FILE_NAME}\n' >> feed_podcast.yml"
+  ssh_server "echo -ne '${I}  link: https://podcast.edyo.es/${APPU_OUTPUT_FILE_NAME}\n' >> feed_podcast.yml"
   ssh_server "echo -ne '${I}  pubDate: $(TZ='UTC' date -R)\n' >> feed_podcast.yml"
   ssh_server "echo -ne '${I}  enclosure:\n' >> feed_podcast.yml"
   ssh_server "echo -ne '${I}    attributes:\n' >> feed_podcast.yml"
   ssh_server "echo -ne '${I}      length: ${EPISODE_LENGTH}\n' >> feed_podcast.yml"
   ssh_server "echo -ne '${I}      type: audio/mpeg\n' >> feed_podcast.yml"
-  ssh_server "echo -ne '${I}      url: http://podcast.edyo.es/${APPU_OUTPUT_FILE_NAME}\n' >> feed_podcast.yml"
+  ssh_server "echo -ne '${I}      url: https://podcast.edyo.es/${APPU_OUTPUT_FILE_NAME}\n' >> feed_podcast.yml"
   ssh_server "./pan feed_podcast.yml > podcast/feed_podcast.xml"
 }
 

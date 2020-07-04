@@ -225,7 +225,7 @@ function validate_publishing {
 }
 
 function check_publishing {
-  URL=${1:-"http://feedpress.me/edyo"}
+  URL=${1:-"https://feedpress.me/edyo"}
   FEED=${2:-"FeedPress"}
   echo -n "Comprobando publicación en ${FEED}" >&2
   PRESENCE=$(

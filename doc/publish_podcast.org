@@ -308,7 +308,7 @@
         git commit -m "Track ${EPISODE_TRACK} " >&2
         COMMIT_ID=$(git rev-parse HEAD)
         git push >&2 || exit 1
-        echo -n "Ejecutando appu" >&2
+        echo -n "Ejecutando appu " >&2
         TRAVIS_BLDS_URL=https://api.travis-ci.org/repos/EDyO/appu/builds
         JQ_QUERY=". as { builds: \$builds, commits: \$commits} | \$builds[] |"
         JQ_QUERY="${JQ_QUERY} select(.commit_id == (\$commits[] |"

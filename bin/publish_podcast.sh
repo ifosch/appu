@@ -22,6 +22,7 @@ function get_episode_script {
   SCRIPT_DATA=$(
     gdrive --service-account ${DRIVE_CREDENTIALS_FILE} list \
            --no-header \
+           --name-width 0 \
            --query "name contains '${SCRIPT_NAME_HOOK}'" | \
     tr -s ' ' | \
     sed -e 's/^\([-_0-9a-zA-Z]*\) \(.*\) doc \(.*\)$/\1;\2;\3/'

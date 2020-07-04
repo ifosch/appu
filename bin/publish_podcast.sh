@@ -137,6 +137,8 @@ function get_episode_details {
 }
 
 function run_appu {
+  echo "Continuar? (Ctrl-C para abortar)" >&2
+  read a
   echo "Configurando ejecución de appu" >&2
   envsubst < templates/appu.cfg >${PROJECTS_PATH}/appu/config.cfg
   cd ${PROJECTS_PATH}/appu

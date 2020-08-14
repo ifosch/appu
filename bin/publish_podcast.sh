@@ -172,7 +172,7 @@ function run_appu {
 }
 
 function ssh_server {
-  ssh edyo@podcast.edyo.es "${1}"
+  ssh edyo@www.y10k.ws "${1}"
 }
 
 function download_edited_mp3 {
@@ -187,7 +187,7 @@ function download_edited_mp3 {
   )
   EPISODE_DEST="podcast/files/${FINAL_FILE_NAME}"
   curl -sLG ${EPISODE_URL} > /tmp/${FINAL_FILE_NAME}
-  scp /tmp/${FINAL_FILE_NAME} edyo@podcast.edyo.es:${EPISODE_DEST}
+  scp /tmp/${FINAL_FILE_NAME} edyo@www.y10k.ws:${EPISODE_DEST}
   rm /tmp/${FINAL_FILE_NAME}
 }
 
@@ -200,6 +200,7 @@ function update_feed {
   ssh_server "echo -ne '${I}    Blog Entre Dev y Ops - https://www.entredevyops.es\n' >> feed_podcast.yml"
   ssh_server "echo -ne '${I}    Telegram Entre Dev y Ops - https://t.me/entredevyops\n' >> feed_podcast.yml"
   ssh_server "echo -ne '${I}    Twitter Entre Dev y Ops - https://twitter.com/EntreDevYOps\n' >> feed_podcast.yml"
+
   ssh_server "echo -ne '${I}    LinkedIn Entre Dev y Ops - https://www.linkedin.com/in/entre-dev-y-ops-a7404385/\n' >> feed_podcast.yml"
   ssh_server "echo -ne '${I}    Patreon Entre Dev y Ops - https://www.patreon.com/edyo\n' >> feed_podcast.yml"
   ssh_server "echo -ne '${I}    Amazon Entre Dev y Ops - https://amzn.to/2HrlmRw\n' >> feed_podcast.yml"
@@ -214,6 +215,8 @@ function update_feed {
   ssh_server "echo -ne '${I}      type: audio/mpeg\n' >> feed_podcast.yml"
   ssh_server "echo -ne '${I}      url: https://podcast.edyo.es/${APPU_OUTPUT_FILE_NAME}\n' >> feed_podcast.yml"
   ssh_server "./pan feed_podcast.yml > podcast/feed_podcast.xml"
+  scp edyo@www.y10k.ws:podcast/feed_podcast.xml /tmp/feed_podcast.xml
+  aws s3 cp /tmp/feed_podcast.xml s3://edyo-episodes/feed_podcast.xml --profile edyo
 }
 
 function validate_publishing {

@@ -20,7 +20,7 @@
     Para usar el programa será necesario tener acceso a:
     - La carpeta compartida en [[Dropbox]]
     - [[https://developers.google.com/identity/protocols/OAuth2][Credenciales de Google Drive]] con acceso a la carpeta compartida ~EDYO~.
-    - Al servidor de publicación, mediante ssh, con claves públicas (~ssh edyo@podcast.edyo.es~)
+    - Al servidor de publicación, mediante ssh, con claves públicas (~ssh edyo@www.y10k.ws~)
       
     Aunque es de acceso público, el programa accede al CI de Travis para ~appu~.
 
@@ -340,7 +340,7 @@
     #+NAME: ssh_server
     #+BEGIN_SRC sh :results silent
       function ssh_server {
-        ssh edyo@podcast.edyo.es "${1}"
+        ssh edyo@www.y10k.ws "${1}"
       }
     #+END_SRC
 
@@ -360,7 +360,7 @@
         )
         EPISODE_DEST="podcast/files/${FINAL_FILE_NAME}"
         curl -sLG ${EPISODE_URL} > /tmp/${FINAL_FILE_NAME}
-        scp /tmp/${FINAL_FILE_NAME} edyo@podcast.edyo.es:${EPISODE_DEST}
+        scp /tmp/${FINAL_FILE_NAME} edyo@www.y10k.ws:${EPISODE_DEST}
         rm /tmp/${FINAL_FILE_NAME}
       }
     #+END_SRC
@@ -392,6 +392,8 @@
         ssh_server "echo -ne '${I}      type: audio/mpeg\n' >> feed_podcast.yml"
         ssh_server "echo -ne '${I}      url: https://podcast.edyo.es/${APPU_OUTPUT_FILE_NAME}\n' >> feed_podcast.yml"
         ssh_server "./pan feed_podcast.yml > podcast/feed_podcast.xml"
+        scp edyo@www.y10k.ws:podcast/feed_podcast.xml /tmp/feed_podcast.xml
+        aws s3 cp /tmp/feed_podcast.xml s3://edyo-episodes/feed_podcast.xml --profile edyo
       }
     #+END_SRC
 

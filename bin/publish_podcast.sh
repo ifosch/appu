@@ -2,6 +2,7 @@ DROPBOX_CLI=${HOME}/bin/dropbox.py
 PROJECTS_PATH=${HOME}/src
 DRIVE_CREDENTIALS_FILE=../.credentials/edyo-test-5159ae711f8b.json
 PUBLIC_FEED=https://podcast.edyo.es/feed_podcast.xml
+DISTRIBUTION_ID=E162NQO7DVT8ZT
 
 function count_tracks {
   curl -s ${PUBLIC_FEED} > /tmp/feedpodcast.xml
@@ -216,7 +217,8 @@ function update_feed {
   ssh_server "echo -ne '${I}      url: https://podcast.edyo.es/${APPU_OUTPUT_FILE_NAME}\n' >> feed_podcast.yml"
   ssh_server "./pan feed_podcast.yml > podcast/feed_podcast.xml"
   scp edyo@www.y10k.ws:podcast/feed_podcast.xml /tmp/feed_podcast.xml
-  aws s3 cp /tmp/feed_podcast.xml s3://edyo-episodes/feed_podcast.xml --profile edyo
+  aws s3 cp /tmp/feed_podcast.xml s3://edyo-episodes/feed_podcast.xml --profile appu
+  aws cloudfront create-invalidation --distribution-id ${DISTRIBUTION_ID} --paths /feed_podcast.xml --profile appu
 }
 
 function validate_publishing {
